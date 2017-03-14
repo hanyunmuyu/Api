@@ -17,10 +17,12 @@ class BookService
 {
     private $bookChapterRepository;
     private $bookRepository;
+    private $bookDomain;
     public function __construct(BookChapterRepository $bookChapterRepository,BookRepository $bookRepository)
     {
         $this->bookChapterRepository = $bookChapterRepository;
         $this->bookRepository = $bookRepository;
+        $this->bookDomain = config('constants.book_domain');
     }
 
     public function getBookChapterList($bookId)
@@ -33,7 +35,7 @@ class BookService
             $book = $this->bookChapterRepository->getBookDetail($bookId);
             if ($book) {
                 foreach ($book as $key => $value) {
-                    $book[$key]['chapter_path'] = $bookId . '/book' . $value['chapter_path'];
+                    $book[$key]['chapter_path'] = $this->bookDomain . '/book' . $value['chapter_path'];
                 }
                 Redis::set($key, serialize($book));
                 return $book;

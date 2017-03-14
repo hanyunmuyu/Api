@@ -15,13 +15,11 @@ use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
-    private $bookDomain;
     private $bookService;
 
     public function __construct(BookService $bookService)
     {
         $this->bookService = $bookService;
-        $this->bookDomain = config('constants.book_domain');
     }
 
     public function index(Request $request)

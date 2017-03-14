@@ -99,4 +99,5 @@ $app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
 });
 //增加常量配置
 $app->configure('constants');
+$app->configure('database');
 return $app;
