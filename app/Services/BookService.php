@@ -10,15 +10,17 @@ namespace App\Services;
 
 
 use App\Repositories\BookChapterRepository;
+use App\Repositories\BookRepository;
 use Illuminate\Support\Facades\Redis;
 
 class BookService
 {
     private $bookChapterRepository;
-
-    public function __construct(BookChapterRepository $bookChapterRepository)
+    private $bookRepository;
+    public function __construct(BookChapterRepository $bookChapterRepository,BookRepository $bookRepository)
     {
         $this->bookChapterRepository = $bookChapterRepository;
+        $this->bookRepository = $bookRepository;
     }
 
     public function getBookChapterList($bookId)
@@ -37,6 +39,26 @@ class BookService
                 return $book;
             }
             return [];
+        }
+    }
+
+    public function getBookList($page=1)
+    {
+        $key = BOOK_PAGE . $page;
+        $bookList = Redis::get($key);
+        if ($bookList) {
+            return unserialize($bookList);
+        } else {
+            $bookList = $this->bookRepository->getBookList();
+            $data = [];
+            if ($bookList) {
+                $bookData = $bookList->toArray();
+                $data['per_page'] = $bookData['per_page'];
+                $data['current_page'] = $bookData['current_page'];
+                $data['last_page'] = $bookData['last_page'];
+                $data['bookList'] = $bookData['data'];
+            }
+            return $data;
         }
     }
 }
