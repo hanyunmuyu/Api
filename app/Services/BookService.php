@@ -18,7 +18,8 @@ class BookService
     private $bookChapterRepository;
     private $bookRepository;
     private $bookDomain;
-    public function __construct(BookChapterRepository $bookChapterRepository,BookRepository $bookRepository)
+
+    public function __construct(BookChapterRepository $bookChapterRepository, BookRepository $bookRepository)
     {
         $this->bookChapterRepository = $bookChapterRepository;
         $this->bookRepository = $bookRepository;
@@ -27,8 +28,8 @@ class BookService
 
     public function getBookChapterList($bookId)
     {
-        $key = BOOK_CHAPTER_LIST . $bookId;
-        $book = Redis::get($key);
+        $bookKey = BOOK_CHAPTER_LIST . $bookId;
+        $book = Redis::get($bookKey);
         if ($book) {
             return unserialize($book);
         } else {
@@ -37,14 +38,14 @@ class BookService
                 foreach ($book as $key => $value) {
                     $book[$key]['chapter_path'] = $this->bookDomain . '/book' . $value['chapter_path'];
                 }
-                Redis::set($key, serialize($book));
+                Redis::set($bookKey, serialize($book));
                 return $book;
             }
             return [];
         }
     }
 
-    public function getBookList($page=1)
+    public function getBookList($page = 1)
     {
         $key = BOOK_PAGE . $page;
         $bookList = Redis::get($key);
@@ -59,7 +60,7 @@ class BookService
                 $data['current_page'] = $bookData['current_page'];
                 $data['last_page'] = $bookData['last_page'];
                 $data['bookList'] = $bookData['data'];
-                Redis::set($key, serialize($data));
+                Redis::setex($key, 3600, serialize($data));
             }
             return $data;
         }
