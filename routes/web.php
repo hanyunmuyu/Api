@@ -14,6 +14,7 @@
 $app->get('/', function () use ($app) {
     return json_encode(['code' => 0]);
 });
-$app->group(['namespace' => 'v1', 'prefix' => 'api/v1','middleware'=>['auth']], function () use ($app) {
+$app->group(['namespace' => 'v1', 'prefix' => 'api/v1'], function () use ($app) {
     $app->get('/', 'IndexController@index');
+    $app->get('/book', 'BookController@index');
 });
