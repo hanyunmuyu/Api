@@ -59,6 +59,7 @@ class BookService
                 $data['current_page'] = $bookData['current_page'];
                 $data['last_page'] = $bookData['last_page'];
                 $data['bookList'] = $bookData['data'];
+                Redis::set($key, serialize($data));
             }
             return $data;
         }
