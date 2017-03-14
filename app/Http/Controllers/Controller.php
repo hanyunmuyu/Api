@@ -38,6 +38,8 @@ class Controller extends BaseController
                 $tmp[$this->parseKey($key)] = $this->parseData($v);
             }
             return $tmp;
+        } elseif(is_null($data)) {
+            return '';
         } else {
             return $data;
         }
