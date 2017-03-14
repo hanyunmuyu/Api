@@ -12,6 +12,7 @@ namespace App\Http\Controllers\v1;
 use App\Http\Controllers\Controller;
 use App\Repositories\BookChapterRepository;
 use App\Repositories\BookRepository;
+use App\Services\BookService;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -19,11 +20,12 @@ class BookController extends Controller
     private $bookRepository;
     private $bookChapterRepository;
     private $bookDomain;
-
-    public function __construct(BookRepository $bookRepository, BookChapterRepository $bookChapterRepository)
+    private $bookService;
+    public function __construct(BookRepository $bookRepository, BookChapterRepository $bookChapterRepository,BookService $bookService)
     {
         $this->bookRepository = $bookRepository;
         $this->bookChapterRepository = $bookChapterRepository;
+        $this->bookService = $bookService;
         $this->bookDomain = config('constants.book_domain');
     }
 
@@ -41,19 +43,12 @@ class BookController extends Controller
         return $this->success($data);
     }
 
-    public function getBookDetail(Request $request)
+    public function getBookChapterList(Request $request)
     {
         $bookId = $request->get('bookId');
         $bookId = intval($bookId);
         if ($bookId > 0) {
-            $book = $this->bookChapterRepository->getBookDetail($bookId);
-            if ($book) {
-                foreach ($book as $key => $value) {
-                    $book[$key]['chapter_path'] = $this->bookDomain . '/book'.$value['chapter_path'];
-                }
-                return $this->success($book);
-            }
-            return $this->success([]);
+            return $this->success($this->bookService->getBookChapterList($bookId));
         }
         return $this->error('书的id不可以为空');
     }

@@ -1,5 +1,5 @@
 <?php
-
+require_once __DIR__ . '/../app/Libs/constants.php';
 require_once __DIR__ . '/../vendor/autoload.php';
 
 try {
