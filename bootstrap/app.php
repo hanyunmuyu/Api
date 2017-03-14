@@ -96,5 +96,6 @@ $app->singleton(
 $app->group(['namespace' => 'App\Http\Controllers'], function ($app) {
     require __DIR__.'/../routes/web.php';
 });
-
+//增加常量配置
+$app->configure('constants');
 return $app;

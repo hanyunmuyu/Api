@@ -7,3 +7,4 @@ Homestead.yaml
 /storage/app/*
 /storage/framework/cache/*
 /storage/framework/views/*
+book
