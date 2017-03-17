@@ -27,7 +27,7 @@ class Controller extends BaseController
     private function returnData($data)
     {
         header('Content-type: application/json');
-        return json_encode($this->parseData($data),JSON_FORCE_OBJECT);
+        return json_encode($this->parseData($data));
     }
 
     private function parseData($data)

@@ -7,3 +7,4 @@
  */
 const BOOK_CHAPTER_LIST = 'bookChapterList:';
 const BOOK_PAGE = 'bookPage:';
+const BOOK_LIST = 'bookList:zongheng';
