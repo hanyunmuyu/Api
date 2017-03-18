@@ -10,6 +10,7 @@ namespace App\Http\Controllers\v1;
 
 
 use App\Http\Controllers\Controller;
+use App\Jobs\BookJob;
 use App\Services\BookService;
 use Illuminate\Http\Request;
 
@@ -36,5 +37,11 @@ class BookController extends Controller
             return $this->success($this->bookService->getBookChapterList($bookId));
         }
         return $this->error('书的id不可以为空');
+    }
+
+    public function bookQueue(Request $request)
+    {
+        $bookHash = $request->get('bookhash');
+        return $this->dispatch(new BookJob($bookHash));
     }
 }

@@ -17,4 +17,12 @@ class BookChapterRepository
     {
         return BookChapterModel::where('book_id', '=', $bookId)->get()->toArray();
     }
+
+    public function updateBookChapter($url, $data)
+    {
+        $data['update_at'] = time();
+        $data['is_crawled'] = 1;
+        return BookChapterModel::where('chapter_href', '=', $url)
+            ->update($data);
+    }
 }

@@ -18,4 +18,6 @@ $app->group(['namespace' => 'v1', 'prefix' => 'api/v1'], function () use ($app) 
     $app->get('/', 'IndexController@index');
     $app->get('/book', 'BookController@index');
     $app->get('/bookchapterlist', 'BookController@getBookChapterList');
+    //异步队列，更新书籍的信息
+    $app->get('/bookqueue', 'BookController@bookQueue');
 });
